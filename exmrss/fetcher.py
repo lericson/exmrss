@@ -32,7 +32,9 @@ class ExplosmFetcher(object):
         soup = BeautifulSoup(resp)
         img = None
         for body in soup("div", {"id": "thebodycontent"}):
-            img = body.img["src"]
+            alt = "Cyanide and Happiness, a daily webcomic"
+            for img in body("img", {"alt": alt}):
+                break
         if img is None:
             raise RuntimeError("malformed explosm page")
         # Now this part is actually funkalicious.
