@@ -6,6 +6,9 @@ import posixpath
 import feedparser
 from BeautifulSoup import BeautifulSoup
 
+error_thing = {"img_url": "http://http://pb.lericson.se/static/img/guard.png",
+               "img_title": "COULD NOT PARSE"}
+
 class ExplosmFetcher(object):
     feed_url = "http://feeds.feedburner.com/Explosm"
 
@@ -21,7 +24,11 @@ class ExplosmFetcher(object):
             if not self.is_comic_entry(entry):
                 continue
             elif self.predicator(entry, touched=touched):
-                yield self.fetch(entry, touched=touched)
+                try:
+                    yield self.fetch(entry, touched=touched)
+                except MalformedPage:
+                    return dict(error_thing, link=entry.link,
+                                title=entry.title, touched=touched)
 
     def retrieve(self):
         resp = urllib2.urlopen(self.feed_url)
