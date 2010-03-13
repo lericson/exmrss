@@ -6,6 +6,8 @@ import posixpath
 import feedparser
 from BeautifulSoup import BeautifulSoup
 
+class MalformedPage(Exception): pass
+
 error_thing = {"img_url": "http://http://pb.lericson.se/static/img/guard.png",
                "img_title": "COULD NOT PARSE"}
 
@@ -43,7 +45,7 @@ class ExplosmFetcher(object):
             for img in body("img", {"alt": alt}):
                 break
         if img is None:
-            raise RuntimeError("malformed explosm page")
+            raise MalformedPage()
         # Now this part is actually funkalicious.
         title = posixpath.splitext(posixpath.basename(img))[0]
         if title == title.lower():
