@@ -29,8 +29,8 @@ class ExplosmFetcher(object):
                 try:
                     yield self.fetch(entry, touched=touched)
                 except MalformedPage:
-                    return dict(error_thing, link=entry.link,
-                                title=entry.title, touched=touched)
+                    yield dict(error_thing, link=entry.link,
+                               title=entry.title, touched=touched)
 
     def retrieve(self):
         resp = urllib2.urlopen(self.feed_url)
