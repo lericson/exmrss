@@ -68,7 +68,7 @@ class ExplosmRSSApp(object):
         qry = db_sess.query(FeedEntry)
         qry = qry.order_by(FeedEntry.created.desc())
         qry = qry.limit(10)
-        return Response(build_feed(qry).encode("utf-8"))
+        return build_feed(qry).encode("utf-8")
 
     def should_refetch(self, last=None):
         if not last:
