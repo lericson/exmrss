@@ -42,7 +42,8 @@ class ExplosmFetcher(object):
         img = None
         for body in soup("div", {"id": "thebodycontent"}):
             alt = "Cyanide and Happiness, a daily webcomic"
-            for img in body("img", {"alt": alt}):
+            for node in body("img", {"alt": alt}):
+                img = node["src"]
                 break
         if img is None:
             raise MalformedPage()
